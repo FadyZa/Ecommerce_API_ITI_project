@@ -1,18 +1,21 @@
 import express from 'express';
 import { createProduct , getAllProducts , updateProduct , deleteProduct , getSingleProduct } from '../controllers/products.controller.js';
+import verifyToken from '../../middlewares/verifyToken.js';
+import isAllow from '../../middlewares/isAllow.js';
 
 const productRoutes = express.Router();
 
+productRoutes.use(verifyToken);
 
-productRoutes.post('/api/product',createProduct);
+productRoutes.post('/product',isAllow("admin"),createProduct);
 
-productRoutes.get('/api/product',getAllProducts);
+productRoutes.get('/product',isAllow("admin","user"),getAllProducts);
 
-productRoutes.get('/api/product/:productID',getSingleProduct);
+productRoutes.get('/product/:productID',isAllow("admin","user"),getSingleProduct);
 
-productRoutes.put('/api/product/:productID',updateProduct);
+productRoutes.put('/product/:productID',isAllow("admin"),updateProduct);
 
-productRoutes.delete('/api/product/:productID',deleteProduct);
+productRoutes.delete('/product/:productID',isAllow("admin"),deleteProduct);
 
 
 

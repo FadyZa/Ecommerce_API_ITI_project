@@ -1,5 +1,5 @@
 
-import userModel from "../../database/models/user.model";
+import userModel from "../DB/models/user.model.js";
 import bcrypt from 'bcrypt'; 
 
 
@@ -9,5 +9,5 @@ export const checkEmail=async(req,res,next)=>{
     
     if(foundUser) return res.status(409).json({message:`already sign`})
 
-        next()
+    next()
 }

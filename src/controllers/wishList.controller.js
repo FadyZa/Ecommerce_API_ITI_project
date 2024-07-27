@@ -1,5 +1,5 @@
 import wishListModel from "../../DB/models/wishList.model.js";
-import userModel from "../db/models/user.model.js";
+import userModel from "../../DB/models/user.model.js";
 
 
 const showWishList = async (req,res)=>{
@@ -9,7 +9,8 @@ const showWishList = async (req,res)=>{
         return res.json({message:"the cart is empty"});
     }
 
-    res.json(userWishList);
+    let populatedUser = await userWishList.populate({path:"products.productId",select:"title description price category"});
+    res.json(populatedUser);
 }
 
 const addToWishList = async (req,res)=>{

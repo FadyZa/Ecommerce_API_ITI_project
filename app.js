@@ -1,14 +1,16 @@
 import express from "express";
 import dbConnection from "./DB/connection.js";
-import wishListRoute from "./src/routes/wishList.route.js";
+import wishListRoute from "./src/routes/wishList.routes.js";
+import userRoutes from "./src/routes/user.routes.js";
 
 const app = express();
 
 app.use(express.json());
 dbConnection;
 
-app.use(wishListRoute);
+app.use(userRoutes);
 
+app.use(wishListRoute);
 
 //! Mahmoud Amer (start)
 import productRoutes from './src/routes/products.routes.js';

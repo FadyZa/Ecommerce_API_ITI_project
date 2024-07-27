@@ -1,7 +1,7 @@
-import userModel from '../../../database/models/user.model.js';
+import userModel from '../../DB/models/user.model.js';
 import bcrypt, { hashSync } from 'bcrypt';
-import sendOurEmail from '../../utilties/sendEmail.js';
-
+import sendOurEmail from '../../utility/sendEmail.js';
+import jwt from "jsonwebtoken";
 // ? sign up
 const signUp= async(req,res)=>{
 
@@ -13,12 +13,18 @@ const signUp= async(req,res)=>{
 // ? sign in
 const signIn= async(req,res)=>{
 
-    let foundUser=await userModel.findOne({email:req.body.email});
-
+    let foundUser = await userModel.findOne({email:req.body.email});
     if(foundUser) {
         let matching=bcrypt.compareSync(req.body.password,foundUser.password);
         if(matching){
-            res.status(200).json({message:"welcome"})
+
+            jwt.sign({id:foundUser._id, role:foundUser.role},"MySecret",(err,token)=>{
+                if(err){
+                    return res.json({err});
+                }
+                return res.json({message:"welcome",token});
+            })
+
         }
         else{
             res.status(422).json({message:"wrong password"})
@@ -28,9 +34,10 @@ const signIn= async(req,res)=>{
     else{
         res.status(404).json({message:`you should register only`});
     }
-if(isConfirmed==false)
+if(foundUser.isConfirmed==false)
     return res.status(401).json({message:"confirm your mail only!!! "})
 }
+
 const verifyAccount=async(req,res)=>{
 
     let updatedUser= await userModel.findOneAndUpdate({email:req.params.email},{isConfirmed:true},{new:true})
@@ -42,5 +49,4 @@ export{
     signUp,
     signIn,
     verifyAccount
-
 } 
