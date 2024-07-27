@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 //! Gmail
 //! noteappiti@gmail.com
@@ -18,12 +18,8 @@ const userSchema=new mongoose.Schema({
     OPTExpire:Date,
     role:{
         type:String,
-        enum:["user","admin"],
-        default:"user"
-    },
-    wishList:{
-        type:Schema.Types.ObjectId,
-        ref:"WishList"
+        enums:['User','Admin'],
+        default:"User",
     }
 },{
     versionKey:false,

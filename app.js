@@ -34,7 +34,24 @@ app.use((error,req,res,next) => {
 //! Mahmoud Amer (end)
 
 
+//? ahmed gamal (st)
 
+
+import express from 'express';
+// import mongoose from 'mongoose';
+import { dbConnection } from './database/dbConnection.js';
+import userRoutes from './src/modules/users/user.routes.js';
+import noteRoutes from './src/modules/notes/note.routes.js';
+import sendOurEmail from './src/util/sendEmail.js';
+
+app.use(express.json());
+
+dbConnection
+
+app.use(userRoutes);
+
+
+//? ahmed gamal (en)
 
 app.listen(3000,()=>{
     console.log("App is running")

@@ -1,4 +1,7 @@
-import nodemailer from "nodemailer"
+// const nodemailer = require("nodemailer");
+import nodemailer from 'nodemailer';
+import { emailTemplate } from './emailTemplate.js';
+
 
 
 
@@ -15,11 +18,11 @@ export default  async function sendOurEmail(email){
        
          // send mail with defined transport object
          const info = await transporter.sendMail({
-           from: '"Note App ITI 👻" <noteappiti@gmail.com>', // sender address
+           from: '"E-Commerce ITI 👻" <noteappiti@gmail.com>', // sender address
            to: email, // list of receivers
            subject: "Hello ✔", // Subject line
            text: "Hello world?", // plain text body
-           html: "<b>Hello world?</b>", // html body
+           html: emailTemplate(email), // html body
          });
        
          console.log("Message sent: %s", info.messageId);
